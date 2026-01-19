@@ -1,4 +1,6 @@
-export type Page = 'create' | 'landing';
+export type Page = 'create' | 'landing' | 'profile';
+
+export type ProfileTab = 'collection' | 'projects' | 'billing';
 
 export interface ArtifactState {
     file: File;
