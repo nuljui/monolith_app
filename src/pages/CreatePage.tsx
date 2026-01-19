@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Plus, ChevronRight, ChevronDown } from 'lucide-react';
-import { Page, ArtifactState } from '../types';
+import { Plus } from 'lucide-react';
+import { Page, ArtifactState, License, AITraining, Visibility } from '../types';
 import { TopBar } from '../components/layout/TopBar';
+import { MarkDetails } from '../components/create/MarkDetails';
 
 interface CreatePageProps {
     onNavigate: (page: Page) => void;
@@ -20,6 +21,12 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
     const [isImageVisible, setIsImageVisible] = useState(false); // Smooth entry for image
     const [isCreating, setIsCreating] = useState(false); // Transition state for creation animation
 
+    // Mark Details State
+    const [isEditingDetails, setIsEditingDetails] = useState(false);
+    const [markLicense, setMarkLicense] = useState<License>('MIT');
+    const [markAITraining, setMarkAITraining] = useState<AITraining>('Not Allowed');
+    const [markVisibility, setMarkVisibility] = useState<Visibility>('Private');
+
     // --- Actions ---
     const handleFiles = (file: File) => {
         setArtifact({
@@ -35,6 +42,7 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
         // "Create" action - Sequence:
         // 1. Trigger transition state (fades out controls, moves box up)
         setIsCreating(true);
+        setIsEditingDetails(false); // Ensure edit mode is closed
 
         // 2. Wait for animation to near completion before switching logic state
         setTimeout(() => {
@@ -48,16 +56,25 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
         setIsCreated(false);
         setIsImageVisible(false);
         setIsCreating(false);
+        setIsEditingDetails(false);
     };
 
     return (
-        <div className="min-h-screen w-full flex flex-col items-center justify-center p-8 bg-stone-50 text-ink font-sans pt-24">
+        <div className="min-h-screen w-full flex flex-col items-center justify-center p-8 bg-stone-50 text-ink font-sans pt-24 relative">
 
-            <TopBar onNavigate={onNavigate} />
+            {/* FOCUS BACKDROP */}
+            <div
+                className={`fixed inset-0 bg-stone-50/50 backdrop-blur-sm transition-all duration-500 z-40 ${isEditingDetails ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => setIsEditingDetails(false)}
+            />
+
+            <div className="z-30 w-full flex flex-col items-center">
+                <TopBar onNavigate={onNavigate} />
+            </div>
 
             {/* HEADLINE */}
             {!artifact && (
-                <div className="text-center mb-16 animate-in fade-in duration-700">
+                <div className="text-center mb-16 animate-in fade-in duration-700 z-30">
                     <h1 className="text-4xl font-semibold tracking-tight text-ink mb-2">
                         Create your Monolith.
                     </h1>
@@ -68,7 +85,7 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
             )}
 
             {/* MAIN INTERACTION AREA */}
-            <div className="relative w-full max-w-lg perspective-[1000px]">
+            <div className="relative w-full max-w-lg">
 
                 {artifact ? (
                     <div className="flex flex-col items-center gap-6">
@@ -119,7 +136,7 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                         </div>
 
                         {/* CONTROLS */}
-                        <div className="w-full flex flex-col items-center justify-center">
+                        <div className="w-full flex flex-col items-center justify-center gap-4">
                             {isCreated ? (
                                 <div className="text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
                                     <span className="text-3xl font-light tracking-wide text-ink">Created</span>
@@ -129,60 +146,37 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                                 </div>
                             ) : (
                                 /* BEFORE CREATION: "Your mark" + Action */
-                                <div className={`flex flex-col items-center w-full gap-4 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}`}>
-
-                                    {/* Action */}
-                                    <button
-                                        onClick={handleCreate}
-                                        className={`text-ink hover:text-ink/60 font-medium text-lg tracking-tight transition-all duration-300 ${isCreating ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
-                                    >
-                                        Create
-                                    </button>
-
-                                    {/* "Your mark" representation - Expandable */}
-                                    <div className="w-full max-w-[320px] bg-white rounded-xl border border-accent shadow-sm overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]">
-
-                                        <div
-                                            onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-                                            className="flex items-center justify-between p-3 cursor-pointer hover:bg-stone-50 transition-colors"
+                                <>
+                                    {/* Action Button Wrapper */}
+                                    <div className={`transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}`}>
+                                        <button
+                                            onClick={handleCreate}
+                                            className={`text-ink hover:text-ink/60 font-medium text-lg tracking-tight transition-all duration-300 ${isCreating ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
                                         >
-                                            {/* Left: Avatar + Label */}
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-ink text-canvas flex items-center justify-center text-xs font-bold">
-                                                    JB
-                                                </div>
-                                                <span className="text-sm font-medium text-ink">Your mark</span>
-                                            </div>
-
-                                            {/* Right: Expand Icon */}
-                                            <div className="text-accent opacity-60">
-                                                {isDetailsOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                                            </div>
-                                        </div>
-
-                                        {/* EXPANDED DETAILS */}
-                                        {/* Using max-h transition for smoother slide */}
-                                        <div className={`
-                                            transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden
-                                            ${isDetailsOpen ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'}
-                                        `}>
-                                            <div className="border-t border-accent/20 p-4 bg-stone-50/50 flex flex-col gap-2 text-[11px] font-medium tracking-wide text-ink/70">
-                                                <div className="flex justify-between w-full">
-                                                    <span className="opacity-50 uppercase tracking-widest">Author</span>
-                                                    <span>jb@monolith.xyz</span>
-                                                </div>
-                                                <div className="flex justify-between w-full">
-                                                    <span className="opacity-50 uppercase tracking-widest">License</span>
-                                                    <span>MIT</span>
-                                                </div>
-                                                <div className="flex justify-between w-full">
-                                                    <span className="opacity-50 uppercase tracking-widest">AI Training</span>
-                                                    <span className="text-accent font-bold">Not Allowed</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            Create
+                                        </button>
                                     </div>
-                                </div>
+
+                                    {/* "Your mark" representation - Expandable Wrapper */}
+                                    <div className={`
+                                        relative w-full max-w-[320px] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
+                                        ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}
+                                        ${isEditingDetails ? 'z-50' : 'z-auto'}
+                                    `}>
+                                        <MarkDetails
+                                            isOpen={isDetailsOpen}
+                                            onToggleOpen={() => setIsDetailsOpen(!isDetailsOpen)}
+                                            isEditing={isEditingDetails}
+                                            onToggleEdit={(e) => { e.stopPropagation(); setIsEditingDetails(!isEditingDetails); }}
+                                            license={markLicense}
+                                            onLicenseChange={setMarkLicense}
+                                            aiTraining={markAITraining}
+                                            onAITrainingChange={setMarkAITraining}
+                                            visibility={markVisibility}
+                                            onVisibilityChange={setMarkVisibility}
+                                        />
+                                    </div>
+                                </>
                             )}
                         </div>
 
