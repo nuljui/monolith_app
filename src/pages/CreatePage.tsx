@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, ChevronRight, ChevronDown } from 'lucide-react';
 import { Page, ArtifactState } from '../types';
 import { TopBar } from '../components/layout/TopBar';

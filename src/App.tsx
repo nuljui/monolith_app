@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CreatePage from './pages/CreatePage';
 import LandingPage from './pages/LandingPage';
 import { Page } from './types';
