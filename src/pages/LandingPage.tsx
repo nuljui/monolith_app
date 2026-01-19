@@ -52,7 +52,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                 <div className="mt-16 mb-24 animate-in fade-in duration-1000 delay-500">
                     <button
                         onClick={() => onNavigate('create')}
-                        className="px-12 py-4 bg-ink text-canvas rounded-full font-bold text-lg tracking-wide hover:bg-ink/80 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 transform active:scale-95"
+                        className="px-12 py-4 bg-accent text-white rounded-full font-bold text-lg tracking-wide hover:bg-accent/80 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 transform active:scale-95"
                     >
                         Start Creating
                     </button>
