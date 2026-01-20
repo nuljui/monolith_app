@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Page, ProfileTab } from '../types';
 import { TopBar } from '../components/layout/TopBar';
-import { Laptop, Monitor, Smartphone, Download, Activity, LayoutGrid, List, Eye, EyeOff } from 'lucide-react';
+import { Laptop, Monitor, Smartphone, Download, Activity, LayoutGrid, List, Eye } from 'lucide-react';
 import yourWorkImg from '../assets/landing/yourmonolith.png';
 import yourMarkImg from '../assets/landing/yourartifact.png';
 
