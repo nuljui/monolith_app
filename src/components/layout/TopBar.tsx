@@ -1,5 +1,5 @@
 
-import { Search } from 'lucide-react';
+import { SearchBar } from '../search/SearchBar';
 import { Page, ProfileTab } from '../../types';
 
 interface TopBarProps {
@@ -21,16 +21,7 @@ export const TopBar = ({ onNavigate }: TopBarProps) => {
 
             {/* Center: Search */}
             <div className="flex-1 flex justify-center max-w-md mx-4">
-                <div className="relative w-full">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-ink/30">
-                        <Search className="w-4 h-4" />
-                    </div>
-                    <input
-                        type="text"
-                        placeholder="Search artifacts..."
-                        className="w-full pl-9 pr-4 py-2 bg-white rounded-[4px] border border-ink/5 text-sm text-ink placeholder:text-ink/30 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all"
-                    />
-                </div>
+                <SearchBar />
             </div>
 
             {/* Right: Profile & Stats */}

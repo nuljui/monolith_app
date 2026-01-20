@@ -29,7 +29,7 @@ const ProfilePage = ({ onNavigate, activeTab = 'collection' }: ProfilePageProps)
     const artifacts = [
         { id: 1, title: 'Mountain Vista', image: yourWorkImg },
         { id: 2, title: 'Abstract #1', image: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=2576&auto=format&fit=crop' },
-        { id: 3, title: 'Neon Nights', image: 'https://images.unsplash.com/photo-1495615080073-6b09c7a70a8e?q=80&w=2670&auto=format&fit=crop' },
+        { id: 3, title: 'Neon Nights', image: 'https://img.businessoffashion.com/resizer/v2/DH3XB4WIGVAUJERNBIOLVHSPOI.jpg?auth=530b3d9987b7a2127cb3eb895e287575d43a23d22087676ec8abdf9a079b02f8&width=1440' },
         { id: 4, title: 'Geometry', image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop' },
     ];
 

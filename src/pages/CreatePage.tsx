@@ -147,16 +147,6 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                             ) : (
                                 /* BEFORE CREATION: "Your mark" + Action */
                                 <>
-                                    {/* Action Button Wrapper */}
-                                    <div className={`transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}`}>
-                                        <button
-                                            onClick={handleCreate}
-                                            className={`text-ink hover:text-ink/60 font-medium text-lg tracking-tight transition-all duration-300 ${isCreating ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
-                                        >
-                                            Create
-                                        </button>
-                                    </div>
-
                                     {/* "Your mark" representation - Expandable Wrapper */}
                                     <div className={`
                                         relative w-full max-w-[320px] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
@@ -175,6 +165,16 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                                             visibility={markVisibility}
                                             onVisibilityChange={setMarkVisibility}
                                         />
+                                    </div>
+
+                                    {/* Action Button Wrapper */}
+                                    <div className={`order-last transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}`}>
+                                        <button
+                                            onClick={handleCreate}
+                                            className={`mt-6 text-ink hover:text-ink/60 font-medium text-lg tracking-tight transition-all duration-300 ${isCreating ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
+                                        >
+                                            Create
+                                        </button>
                                     </div>
                                 </>
                             )}
