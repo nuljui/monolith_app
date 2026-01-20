@@ -1,4 +1,5 @@
 
+import { useState, useRef, useEffect } from 'react';
 import { Page, ProfileTab } from '../types';
 import { TopBar } from '../components/layout/TopBar';
 import yourWorkImg from '../assets/landing/yourmonolith.png';
@@ -10,6 +11,19 @@ interface ProfilePageProps {
 }
 
 const ProfilePage = ({ onNavigate, activeTab = 'collection' }: ProfilePageProps) => {
+    // Sliding Underline Logic
+    const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+    const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
+    useEffect(() => {
+        const activeElement = tabsRef.current[activeTab];
+        if (activeElement) {
+            setUnderlineStyle({
+                left: activeElement.offsetLeft,
+                width: activeElement.offsetWidth
+            });
+        }
+    }, [activeTab]);
 
     // Mock Data
     const artifacts = [
@@ -68,22 +82,29 @@ const ProfilePage = ({ onNavigate, activeTab = 'collection' }: ProfilePageProps)
 
             {/* TABS */}
             <div className="w-full max-w-6xl px-6 mb-8 border-b border-ink/5">
-                <div className="flex gap-8">
+                <div className="relative flex gap-8">
                     {(['collection', 'projects', 'billing'] as ProfileTab[]).map((tab) => (
                         <button
                             key={tab}
+                            ref={(el) => (tabsRef.current[tab] = el)}
                             onClick={() => handleTabChange(tab)}
                             className={`
-                                pb-4 capitalize font-medium text-sm tracking-wide transition-all relative
+                                pb-4 capitalize font-medium text-sm tracking-wide transition-colors
                                 ${activeTab === tab ? 'text-ink' : 'text-faded hover:text-ink/70'}
                             `}
                         >
                             {tab}
-                            {activeTab === tab && (
-                                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-accent rounded-t-full" />
-                            )}
                         </button>
                     ))}
+
+                    {/* Sliding Underline */}
+                    <span
+                        className="absolute bottom-0 h-[2px] bg-accent rounded-t-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                        style={{
+                            left: `${underlineStyle.left}px`,
+                            width: `${underlineStyle.width}px`
+                        }}
+                    />
                 </div>
             </div>
 

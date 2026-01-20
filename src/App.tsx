@@ -6,7 +6,7 @@ import { Page, ProfileTab } from './types';
 
 const App = () => {
     // Simple state-based router
-    const [currentPage, setCurrentPage] = useState<Page>('create');
+    const [currentPage, setCurrentPage] = useState<Page>('landing');
     const [currentProfileTab, setCurrentProfileTab] = useState<ProfileTab>('collection');
 
     const handleNavigate = (page: Page, tab?: ProfileTab) => {

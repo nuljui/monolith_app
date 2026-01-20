@@ -33,7 +33,7 @@ const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         <img
                             src={yourMonolithImg}
                             alt="Monolith Collection"
-                            className="w-full h-full object-contain drop-shadow-2xl opacity-100 transform hover:scale-105 transition-transform duration-1000 ease-in-out"
+                            className="w-full h-full object-contain drop-shadow-2xl opacity-100 transform transition-transform duration-1000 ease-in-out"
                         />
                     </div>
                 </div>
