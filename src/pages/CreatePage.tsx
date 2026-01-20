@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { Page, ArtifactState, License, AITraining, Visibility } from '../types';
+import { Page, ArtifactState, License, AITraining, Visibility, ProfileTab, ProjectTab } from '../types';
 import { TopBar } from '../components/layout/TopBar';
 import { MarkDetails } from '../components/create/MarkDetails';
 
 interface CreatePageProps {
-    onNavigate: (page: Page) => void;
+    onNavigate: (page: Page, tab?: ProfileTab | ProjectTab, artifactId?: number) => void;
 }
 
 const CreatePage = ({ onNavigate }: CreatePageProps) => {
@@ -127,7 +127,8 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                             {/* MARK GLYPH (Outside, Bottom Right) */}
                             {(isCreated || isCreating) && (
                                 <div
-                                    className="absolute -bottom-1 -right-12 w-8 h-8 rounded-full border border-accent flex items-center justify-center animate-in fade-in zoom-in duration-700 bg-transparent"
+                                    onClick={() => onNavigate('artifact', undefined, 1)}
+                                    className="absolute -bottom-1 -right-12 w-8 h-8 rounded-full border border-accent flex items-center justify-center animate-in fade-in zoom-in duration-700 bg-transparent cursor-pointer hover:bg-accent/5 hover:scale-105 transition-all"
                                 >
                                     <span className="font-bold text-[10px] text-ink">JB</span>
                                 </div>
@@ -149,8 +150,8 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                                 <>
                                     {/* "Your mark" representation - Expandable Wrapper */}
                                     <div className={`
-                                        relative w-full max-w-[320px] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-                                        ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}
+                                        relative w-full max-w-[320px] transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]
+                                        ${isCreating ? '-translate-y-12 opacity-0' : 'translate-y-6 opacity-100'}
                                         ${isEditingDetails ? 'z-50' : 'z-auto'}
                                     `}>
                                         <MarkDetails
@@ -164,14 +165,15 @@ const CreatePage = ({ onNavigate }: CreatePageProps) => {
                                             onAITrainingChange={setMarkAITraining}
                                             visibility={markVisibility}
                                             onVisibilityChange={setMarkVisibility}
+                                            onMarkClick={() => onNavigate('artifact', undefined, 1)}
                                         />
                                     </div>
 
                                     {/* Action Button Wrapper */}
-                                    <div className={`order-last transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isCreating ? '-translate-y-24 opacity-0' : 'translate-y-6 opacity-100'}`}>
+                                    <div className={`order-last transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] ${isCreating ? '-translate-y-12 opacity-0' : 'translate-y-6 opacity-100'}`}>
                                         <button
                                             onClick={handleCreate}
-                                            className={`mt-6 text-ink hover:text-ink/60 font-medium text-lg tracking-tight transition-all duration-300 ${isCreating ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
+                                            className={`text-ink hover:text-ink/60 font-medium text-lg tracking-tight transition-all duration-300 ${isCreating ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
                                         >
                                             Create
                                         </button>

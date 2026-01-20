@@ -29,7 +29,7 @@ export const TopBar = ({ onNavigate }: TopBarProps) => {
 
                 {/* Artifacts Counter */}
                 <button
-                    onClick={() => onNavigate('profile', 'billing')}
+                    onClick={() => onNavigate('profile', 'upgrade')}
                     className="text-xs font-medium text-ink/40 hover:text-accent transition-colors"
                     title="Artifacts created today"
                 >

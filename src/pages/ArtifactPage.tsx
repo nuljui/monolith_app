@@ -68,15 +68,7 @@ const ArtifactPage = ({ onNavigate, artifactId }: ArtifactPageProps) => {
                         </div>
                     </div>
 
-                    {/* ACTION BAR */}
-                    <div className="flex gap-4">
-                        <button className="flex-1 py-3 border border-ink/10 rounded-full font-medium hover:bg-white hover:shadow-sm transition-all text-sm">
-                            Download Information
-                        </button>
-                        <button className="flex-1 py-3 bg-ink text-white rounded-full font-medium hover:bg-ink/90 transition-all text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                            Verify Authenticity
-                        </button>
-                    </div>
+
                 </div>
 
                 {/* RIGHT: DETAILS */}
@@ -111,7 +103,7 @@ const ArtifactPage = ({ onNavigate, artifactId }: ArtifactPageProps) => {
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-faded uppercase tracking-wider mb-1">AI Training</label>
-                            <div className={`font-medium ${artifact.aiTraining === 'Allowed' ? 'text-green-600' : 'text-amber-600'}`}>
+                            <div className={`font-medium ${artifact.aiTraining === 'Allowed' ? 'text-green-600' : 'text-secondary'}`}>
                                 {artifact.aiTraining}
                             </div>
                         </div>
@@ -142,7 +134,7 @@ const ArtifactPage = ({ onNavigate, artifactId }: ArtifactPageProps) => {
                         </button>
 
                         {isDetailsOpen && (
-                            <div className="p-4 pt-0 border-t border-ink/5 bg-white space-y-4 animate-in slide-in-from-top-2 duration-200">
+                            <div className="p-4 border-t border-ink/5 bg-white space-y-4 animate-in slide-in-from-top-2 duration-200">
 
                                 <div>
                                     <label className="block text-[10px] font-semibold text-faded uppercase tracking-wider mb-1">Creation Receipt</label>
@@ -154,7 +146,7 @@ const ArtifactPage = ({ onNavigate, artifactId }: ArtifactPageProps) => {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-[10px] font-semibold text-faded uppercase tracking-wider mb-1">Visual ID (pHash)</label>
+                                        <label className="block text-[10px] font-semibold text-faded uppercase tracking-wider mb-1">Visual ID</label>
                                         <div className="font-mono text-xs text-ink/70 break-all">{artifact.visualId}</div>
                                     </div>
                                     <div>

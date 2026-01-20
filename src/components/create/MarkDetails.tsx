@@ -7,6 +7,7 @@ interface MarkDetailsProps {
     onToggleOpen: () => void;
     isEditing: boolean;
     onToggleEdit: (e: React.MouseEvent) => void;
+    onMarkClick?: () => void;
 
     // Data Props
     license: License;
@@ -27,14 +28,15 @@ export const MarkDetails = ({
     aiTraining,
     onAITrainingChange,
     visibility,
-    onVisibilityChange
+    onVisibilityChange,
+    onMarkClick
 }: MarkDetailsProps) => {
     const [isLicenseDropdownOpen, setIsLicenseDropdownOpen] = useState(false);
 
     return (
         <div className={`transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isEditing ? 'scale-110' : ''}`}>
             {/* The Box */}
-            <div className={`w-full bg-white rounded-xl border shadow-sm overflow-visible transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isEditing ? 'border-orange-400 shadow-md ring-4 ring-orange-500/10' : 'border-accent'}`}>
+            <div className={`w-full bg-white rounded-xl border shadow-sm overflow-visible transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isEditing ? 'border-secondary shadow-md ring-4 ring-secondary/10' : 'border-accent'}`}>
 
                 {/* Header */}
                 <div
@@ -43,7 +45,15 @@ export const MarkDetails = ({
                 >
                     {/* Left: Avatar + Label */}
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-ink text-canvas flex items-center justify-center text-xs font-bold">
+                        <div
+                            onClick={(e) => {
+                                if (onMarkClick) {
+                                    e.stopPropagation();
+                                    onMarkClick();
+                                }
+                            }}
+                            className={`w-8 h-8 rounded-full bg-ink text-canvas flex items-center justify-center text-xs font-bold ${onMarkClick ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                        >
                             JB
                         </div>
                         <span className="text-sm font-medium text-ink">Your mark</span>
@@ -75,7 +85,7 @@ export const MarkDetails = ({
                                 <div className="relative">
                                     <button
                                         onClick={() => setIsLicenseDropdownOpen(!isLicenseDropdownOpen)}
-                                        className="flex items-center gap-1.5 text-orange-600 hover:text-orange-700 transition-colors"
+                                        className="flex items-center gap-1.5 text-secondary hover:text-secondary/80 transition-colors"
                                     >
                                         <span>{license}</span>
                                         <ChevronDown className={`w-3 h-3 transition-transform ${isLicenseDropdownOpen ? 'rotate-180' : ''}`} />
@@ -87,7 +97,7 @@ export const MarkDetails = ({
                                                 <button
                                                     key={lic}
                                                     onClick={() => { onLicenseChange(lic); setIsLicenseDropdownOpen(false); }}
-                                                    className={`text-right px-4 py-2 text-[11px] hover:bg-stone-50 transition-colors ${license === lic ? 'text-orange-600 font-bold' : 'text-ink'}`}
+                                                    className={`text-right px-4 py-2 text-[11px] hover:bg-stone-50 transition-colors ${license === lic ? 'text-secondary font-bold' : 'text-ink'}`}
                                                 >
                                                     {lic}
                                                 </button>
@@ -107,7 +117,7 @@ export const MarkDetails = ({
                                 onClick={() => isEditing && onAITrainingChange(aiTraining === 'Allowed' ? 'Not Allowed' : 'Allowed')}
                                 className={`
                                     font-bold transition-colors
-                                    ${isEditing ? 'cursor-pointer text-orange-600 hover:text-orange-700' : (aiTraining === 'Allowed' ? 'text-accent' : 'text-red-500/60')}
+                                    ${isEditing ? 'cursor-pointer text-secondary hover:text-secondary/80' : (aiTraining === 'Allowed' ? 'text-accent' : 'text-red-500/60')}
                                 `}
                             >
                                 {aiTraining}
@@ -121,7 +131,7 @@ export const MarkDetails = ({
                                 onClick={() => isEditing && onVisibilityChange(visibility === 'Public' ? 'Private' : 'Public')}
                                 className={`
                                     flex items-center gap-1.5 transition-colors
-                                    ${isEditing ? 'cursor-pointer text-orange-600 hover:text-orange-700' : 'text-ink'}
+                                    ${isEditing ? 'cursor-pointer text-secondary hover:text-secondary/80' : 'text-ink'}
                                 `}
                             >
                                 <span>{visibility}</span>
@@ -139,7 +149,7 @@ export const MarkDetails = ({
                     onClick={onToggleEdit}
                     className={`
                         absolute bottom-0 -right-6 p-1.5 rounded-full transition-all duration-300 animate-in fade-in zoom-in z-50
-                        ${isEditing ? 'bg-orange-500/10 text-orange-600' : 'text-ink/30 hover:text-ink hover:bg-ink/5'}
+                        ${isEditing ? 'bg-secondary/10 text-secondary' : 'text-ink/30 hover:text-ink hover:bg-ink/5'}
                     `}
                 >
                     <Edit2 className="w-3 h-3" />
