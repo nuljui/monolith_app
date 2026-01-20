@@ -6,7 +6,7 @@ import yourWorkImg from '../assets/landing/yourmonolith.png';
 import yourMarkImg from '../assets/landing/yourartifact.png';
 
 interface ProfilePageProps {
-    onNavigate: (page: Page, tab?: ProfileTab) => void;
+    onNavigate: (page: Page, tab?: ProfileTab, artifactId?: number) => void;
     activeTab?: ProfileTab;
 }
 
@@ -117,6 +117,7 @@ const ProfilePage = ({ onNavigate, activeTab = 'collection' }: ProfilePageProps)
                         {artifacts.map((art) => (
                             <div
                                 key={art.id}
+                                onClick={() => onNavigate('artifact', undefined, art.id)}
                                 className="group relative aspect-[4/5] bg-white p-3 shadow-md hover:shadow-xl transition-all duration-500 ease-out cursor-pointer hover:-translate-y-1"
                             >
                                 <div className="w-full h-full border border-stone-100 overflow-hidden relative">

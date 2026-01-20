@@ -1,4 +1,4 @@
-export type Page = 'create' | 'landing' | 'profile';
+export type Page = 'create' | 'landing' | 'profile' | 'artifact';
 
 export type ProfileTab = 'collection' | 'projects' | 'billing';
 
